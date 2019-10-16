@@ -15,9 +15,7 @@ router.post('/list',(req,res)=>{
                     //遍历目录得到的文件名称是不含路径的，需要将前面的绝对路径拼接
                     var absolutePath = path.resolve(path.join(param, e));
 					result[index] = e;
-					console.log(index+"====>"+absolutePath)
                 })
-		 console.log("result++++++++++++++"+JSON.stringify(result));
 	      res.json(result);
         })
 		  
@@ -26,19 +24,19 @@ router.post('/list',(req,res)=>{
             console.log(param)
         }
     })
-})
+});
 
+router.post('/delete',(req,res)=>{
+   console.log("delete====>")		
+   fs.unlink('/tmp/'+req.body.path, function(err){
+	  console.log("delete error===="+JSON.stringify(err))
+      res.json('删除成功');
+  })
+});
 
-    router.post('/delete',(req,res)=>{
-       console.log("delete====>"+JSON.Stringify(req))		
-       fs.unlink(req.path, function(err){
-         if(err){
-           throw err;
-       }
-     console.log('文件:'+filepath+'删除成功！');
-     })
-    })	
-	
+router.get('/test', function(req, res, next) {
+  res.send('respond 1111');
+});
 
 
 module.exports = router;

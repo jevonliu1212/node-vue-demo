@@ -4,6 +4,7 @@
       action="/upload/uploadfile"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
+	  :on-error="handleError"
       :before-remove="beforeRemove"
       multiple
       :file-list="fileList">
@@ -30,7 +31,7 @@ export default {
     }
   },
   methods: {
-    async submit () {
+    submit () {
       const formData = new FormData()
       formData.append('file', this.file)
       this.axios.post('/upload/uploadfile', formData, {'Content-Type': 'multipart/form-data'}).then(res => {
@@ -55,7 +56,11 @@ export default {
     },
     beforeRemove (file, fileList) {
       return this.$confirm('确定移除？')
-    }
+    },
+	handleError (err, file, fileLis) {
+	  console.log("error==="+JSON.stringify(err))
+	  this.$message.warning('系统错误:'+err.status)
+	}
   }
 }
 </script>

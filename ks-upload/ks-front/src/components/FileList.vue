@@ -48,19 +48,18 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const formData = new FormData()
-        formData.append('path', row)
-        this.axios.post('/upload/delete', formData).then(res => {
+		let data = {"path":row};
+        this.axios.post('/files/delete', data).then(res => {
           console.log(res)
           this.$message({
             showClose: true,
-            message: '上传成功'
+            message: '删除成功'
           })
-        })
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
+        }).catch(res => {
+        console.log('query error')
+        this.$message.warning(res.message)
+      })
+
       }).catch(() => {
         this.$message({
           type: 'info',
